@@ -1,4 +1,4 @@
-import { of } from "rxjs"
+import { of } from 'rxjs';
 
-of("abc")
-console.log("Hello World!")
+of('abc');
+// console.log('Hello World!');

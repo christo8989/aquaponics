@@ -1,5 +1,5 @@
-import { TestScheduler } from 'rxjs/testing';
-import { expect } from "chai";
+// import { TestScheduler } from 'rxjs/testing';
+import { expect } from 'chai';
  
 // const testScheduler = new TestScheduler((actual: any, expected: any) => {
 //   // asserting the two objects are equal
@@ -20,8 +20,9 @@ import { expect } from "chai";
 //   });
 // });
 
-describe("Tests", () => {
-  it("should run", () => {
-    expect("test").to.equal("foo")
-  })
-})
+describe('Tests', () => {
+  it('should run', () => {
+    expect('test').to.equal('foo');
+    expect('test eslint').to.equal('test eslint');
+  });
+});
