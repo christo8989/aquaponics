@@ -1,3 +1,4 @@
-console.log("Does it work?")
+import { of } from "rxjs"
 
-console.log("It does in fact work!")
+of("abc")
+console.log("Hello World!")
