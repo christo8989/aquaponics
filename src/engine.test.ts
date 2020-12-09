@@ -1,6 +1,6 @@
-import { testScheduler } from "~/utils/test.helpers";
-import { throttleTime } from 'rxjs/operators'
-import { expect } from "chai";
+import { truthy } from '~/utils/test.helpers';
+// import { throttleTime } from 'rxjs/operators'
+// import { expect } from "chai";
 
 describe('engine', () => {
   // This test will actually run *synchronously*
@@ -17,10 +17,10 @@ describe('engine', () => {
   // });
 
   it('does this finis for trueh', () => {
-    expect(true).to.true;
-  })
+    expect(true).toBe(true);
+  });
 
   it('does this finish', () => {
-    expect(!!testScheduler).to.true;
-  })
+    expect(truthy).toBeTruthy();
+  });
 });

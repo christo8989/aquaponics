@@ -1,6 +1,6 @@
 // import { TestScheduler } from 'rxjs/testing';
 // import { throttleTime } from "rxjs/operators"
-import { expect } from 'chai';
+// import { expect } from 'chai';
 
 // const testScheduler = new TestScheduler((actual: any, expected: any) => {
 //   // asserting the two objects are equal
@@ -10,7 +10,7 @@ import { expect } from 'chai';
 
 describe('Tests', () => {
   it('should run', () => {
-    expect('test').to.equal('test');
+    expect('test').toBe('test');
   });
 
   // This test will actually run *synchronously*

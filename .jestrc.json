@@ -1,0 +1,13 @@
+{
+  "rootDir": "src",
+  "moduleFileExtensions": ["js","ts"],
+  "globals": {
+    "ts-jest": {
+      "compiler": "ttypescript",
+      "tsconfig": "tsconfig.json"
+    }
+  },
+  "transform": {
+    ".*.ts$": "ts-jest"
+  }
+}
