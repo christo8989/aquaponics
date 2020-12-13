@@ -1,6 +1,7 @@
 {
   "rootDir": "src",
   "moduleFileExtensions": ["js","ts"],
+  "testEnvironment": "node",
   "globals": {
     "ts-jest": {
       "compiler": "ttypescript",
