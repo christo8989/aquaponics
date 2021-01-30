@@ -1,28 +1,59 @@
-import { Observable, Subscriber, TeardownLogic } from 'rxjs';
+import { Observable, Subject, Subscriber, TeardownLogic, isObservable } from 'rxjs';
 import { Device } from '~/devices/device';
+import { available } from '~/utils/array.helpers';
 
-interface DeviceObservableConfiguration {
-  interval: number;
-}
+type T = number;
 
-export class DeviceObservable extends Observable<number> {
-  private _intervalId!: NodeJS.Timeout;
+const validate = (device: any) => {
+  if (isObservable(device)) {
+    throw new Error('You cannot give the DeviceObservable another Observable.');
+  }
+};
 
-  constructor(
-    public device: Device,
-    private _options: DeviceObservableConfiguration,
-  ) {
-    super((subscriber: Subscriber<number>): TeardownLogic => {
-      this._intervalId = setInterval(() => {
-        this.device.measure()
-          .then(subscriber.next.bind(subscriber))
-          // TODO: error log
-          .catch(error => console.log(error));
-      }, this._options.interval);
+export class DeviceObservable extends Observable<T> implements Device {
+  private subject = new Subject<T>();
+  private intervalId: NodeJS.Timeout | undefined;
+
+  constructor(private device: Device) {
+    super((subscriber: Subscriber<T>): TeardownLogic => {
+      if (!available(this.subject.observers)) {
+        this.clearInterval();
+
+        this.intervalId = setInterval(() => {
+          this.device.measure()
+            .then(this.subject.next.bind(this.subject))
+            // TODO: error log
+            .catch(console.error);
+        }, device.interval);
+      }
+
+      const subscription = this.subject.subscribe(subscriber);
 
       return () => {
-        clearInterval(this._intervalId);
+        subscription.unsubscribe();
+        this.clearInterval();
       };
     });
+
+    validate(device);
+  }
+
+  get name() {
+    return this.device.name;
+  }
+
+  get interval() {
+    return this.device.interval;
+  }
+
+  measure() {
+    return this.device.measure();
+  }
+
+  private clearInterval(): void {
+    if (this.intervalId && !available(this.subject.observers)) {
+      clearInterval(this.intervalId);
+      delete this.intervalId;
+    }
   }
 }
