@@ -3,7 +3,7 @@
     "compiler": "ttypescript"
   },
   "compilerOptions": {
-    "target": "es5", 
+    "target": "esnext", 
     "module": "commonjs", 
     "outDir": "./dist",
     "strict": true, 

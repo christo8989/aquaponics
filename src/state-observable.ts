@@ -4,18 +4,18 @@ import { DeviceObservable } from '~/devices/device-observable';
 import { Device } from './devices/device';
 import { curry } from './utils/function.helpers';
 
-interface state {
+export interface State {
   [key: string]: number;
 }
 
-type T = state;
+type T = State;
 
 /** Time in milliseconds */
 export const STATE_DEBOUNCE_TIME = 1;
 
 const manyToState = curry(
-  (devices$: DeviceObservable[], values: number[] = []): T =>
-    devices$.reduce(toState(values), {}),
+  (devices$: DeviceObservable[], values: number[]): T =>
+    devices$.reduce(toState(values || []), {}),
 );
 
 const toState = (values: number[]) => (state: T, device$: DeviceObservable, index: number): T => {
@@ -26,7 +26,7 @@ const toState = (values: number[]) => (state: T, device$: DeviceObservable, inde
 
 
 const validate = (devices: Device[]) => {
-  const names = {} as any;
+  const names = {} as unknown;
   devices.forEach(({ name }) => names[name] = name);
   if (Object.keys(names).length < devices.length) {
     throw new Error(`There are two devices with the same name. [${devices.map(({ name }) => name)}]`);
@@ -37,7 +37,7 @@ const validate = (devices: Device[]) => {
   }
 };
 
-export class State extends Observable<T> {
+export class StateObservable extends Observable<T> {
   private numberOfObservers = 0
   private subscription: Subscription | null
   private state$: Observable<T>

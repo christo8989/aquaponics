@@ -12,12 +12,13 @@
     "test": "jest --config .jestrc.json --runInBand --watch",
     "lint": "eslint src/**/*.ts --fix",
     "start:dev": "nodemon --config .nodemonrc.json src/index.ts",
-    "start:prod": "node dist/index.js"
+    "start:prod": "node dist/index.js",
+    "start:example:counting": "ts-node examples/counting/index.ts"
   },
   "dependencies": {
     "node": "^15.3.0",
     "ramda": "^0.27.1",
-    "rxjs": "^6.6.3"
+    "rxjs": "^6.6.7"
   },
   "devDependencies": {
     "@types/jest": "^26.0.18",

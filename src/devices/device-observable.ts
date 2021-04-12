@@ -4,7 +4,7 @@ import { available } from '~/utils/array.helpers';
 
 type T = number;
 
-const validate = (device: any) => {
+const validate = (device: unknown) => {
   if (isObservable(device)) {
     throw new Error('You cannot give the DeviceObservable another Observable.');
   }
@@ -38,15 +38,15 @@ export class DeviceObservable extends Observable<T> implements Device {
     validate(device);
   }
 
-  get name() {
+  get name(): string {
     return this.device.name;
   }
 
-  get interval() {
+  get interval(): number {
     return this.device.interval;
   }
 
-  measure() {
+  measure(): Promise<number> {
     return this.device.measure();
   }
 

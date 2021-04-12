@@ -19,7 +19,7 @@ export class ManualDevice implements Device {
     }
   }
 
-  measure() {
+  measure(): Promise<number> {
     return Promise.resolve(this.value);
   }
 }

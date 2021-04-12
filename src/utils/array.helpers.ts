@@ -1,1 +1,1 @@
-export const available = (arr: any[]): boolean => Array.isArray(arr) && arr.length > 0;
+export const available = (arr: unknown[]): boolean => Array.isArray(arr) && arr.length > 0;

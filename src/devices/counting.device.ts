@@ -19,7 +19,7 @@ export class CountingDevice implements Device {
     }
   }
 
-  measure() {
+  measure(): Promise<number> {
     const promise = Promise.resolve(this.counter);
     this.counter++;
     return promise;

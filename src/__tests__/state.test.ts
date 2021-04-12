@@ -1,6 +1,6 @@
 import { DeviceObservable } from '~/devices/device-observable';
 import { CountingDevice } from '~/devices/counting.device';
-import { State, STATE_DEBOUNCE_TIME } from '~/state';
+import { StateObservable, STATE_DEBOUNCE_TIME } from '~/state-observable';
 import { ManualDevice } from '~/devices/manual.device';
 
 describe('state', () => {
@@ -15,11 +15,11 @@ describe('state', () => {
   });
 
   afterEach(() => {
-    observables = null as any;
+    observables = [];
   });
 
   it('should be a behavior subject', () => {
-    const state = new State([]);
+    const state = new StateObservable([]);
     expect(typeof state.subscribe).toBe('function');
     expect(typeof state.value).toBe('object');
     expect(typeof state.value).not.toBeFalsy();
@@ -31,7 +31,7 @@ describe('state', () => {
       new DeviceObservable(new CountingDevice({ name: 'Different' })),
       new DeviceObservable(new CountingDevice({ name: 'Test' })),
     ];
-    const action = () => { new State(devices); };
+    const action = () => { new StateObservable(devices); };
     expect(action).toThrowError();
   });
   
@@ -39,7 +39,7 @@ describe('state', () => {
     const devices = [
       new DeviceObservable(new CountingDevice({ name: 'Test', interval: STATE_DEBOUNCE_TIME })),
     ];
-    const action = () => { new State(devices); };
+    const action = () => { new StateObservable(devices); };
     expect(action).toThrowError();
   });
   
@@ -47,18 +47,18 @@ describe('state', () => {
     const devices = [
       new DeviceObservable(new CountingDevice({ name: 'Test', interval: STATE_DEBOUNCE_TIME - 1 })),
     ];
-    const action = () => { new State(devices); };
+    const action = () => { new StateObservable(devices); };
     expect(action).toThrowError();
   });
 
   it('devices should default to 0', () => {
-    const state = new State(observables);
+    const state = new StateObservable(observables);
     const expected = { test1: 0, test2: 0 };
     expect(state.value).toEqual(expected);
   });
 
   it('devices should return their measured value', done => {
-    const state = new State(observables);
+    const state = new StateObservable(observables);
     const expected = { test1: 100, test2: 23 };
 
     const unsubscribe = state.subscribe(state => {
@@ -69,8 +69,8 @@ describe('state', () => {
   });
 
   it('should be subscribabble', done => {
-    const state = new State(observables);
-    const unsubscribe = state.subscribe(_ => {
+    const state = new StateObservable(observables);
+    const unsubscribe = state.subscribe(() => {
       unsubscribe.unsubscribe();
       done();
     });
